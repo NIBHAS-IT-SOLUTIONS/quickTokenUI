@@ -1,0 +1,51 @@
+/* 
+#openPopupBtn{
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+}
+.popup .ok-button{
+     background: #0c5862;
+     color: #fff;
+     height: 40px;
+     width: 100px;
+     margin-right: 10px;
+}
+.popup .close-btn{
+    background: #0c5862;
+     color: #fff;
+     height: 40px;
+     width: 100px; 
+}
+.popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 350px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.598);
+    z-index: 1000;
+}
+
+.popup.active {
+    display: block ;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+.overlay.active {
+    display: block;
+} */

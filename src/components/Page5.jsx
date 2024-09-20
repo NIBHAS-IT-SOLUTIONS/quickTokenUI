@@ -6,42 +6,85 @@ import { Link } from 'react-router-dom';
 
 function Page5() {
     useEffect(() => {
-        const tabsBox = document.querySelector(".page5-tabs-box"),
-            allTabs = tabsBox.querySelectorAll(".page5-tab"),
+        // const tabsBox = document.querySelector(".page5-tabs-box"),
+        //     allTabs = tabsBox.querySelectorAll(".page5-tab"),
 
-            arrowIcons = document.querySelectorAll(".page5-icon i");
-        let isDragging = false;
-        const handleIcons = (scrollVal) => {
-            let maxScrollableWidth = tabsBox.scrollWidth - tabsBox.clientWidth;
-            arrowIcons[0].parentElement.style.display = scrollVal <= 0 ? "none" : "flex";
-            arrowIcons[1].parentElement.style.display = maxScrollableWidth - scrollVal <= 1 ? "none" : "flex";
-        }
-        arrowIcons.forEach(icon => {
-            icon.addEventListener("click", () => {
-                let scrollWidth = tabsBox.scrollLeft += icon.id === "left" ? -340 : 340;
-                handleIcons(scrollWidth);
-            });
-        });
-        allTabs.forEach(tab => {
-            tab.addEventListener("click", () => {
-                tabsBox.querySelector(".active").classList.remove("active");
-                tab.classList.add("active");
-            });
-        });
-        const dragging = (e) => {
-            if (!isDragging) return;
-            tabsBox.classList.add("dragging");
-            tabsBox.scrollLeft -= e.movementX;
-            handleIcons(tabsBox.scrollLeft)
-        }
-        const dragStop = () => {
-            isDragging = false;
-            tabsBox.classList.remove("dragging");
-        }
-        tabsBox.addEventListener("mousedown", () => isDragging = true);
-        tabsBox.addEventListener("mousemove", dragging);
-        document.addEventListener("mouseup", dragStop);
+        //     arrowIcons = document.querySelectorAll(".page5-icon i");
+        // let isDragging = false;
+        // const handleIcons = (scrollVal) => {
+        //     let maxScrollableWidth = tabsBox.scrollWidth - tabsBox.clientWidth;
+        //     arrowIcons[0].parentElement.style.display = scrollVal <= 0 ? "none" : "flex";
+        //     arrowIcons[1].parentElement.style.display = maxScrollableWidth - scrollVal <= 1 ? "none" : "flex";
+        // }
+        // arrowIcons.forEach(icon => {
+        //     icon.addEventListener("click", () => {
+        //         let scrollWidth = tabsBox.scrollLeft += icon.id === "left" ? -340 : 340;
+        //         handleIcons(scrollWidth);
+        //     });
+        // });
+        // allTabs.forEach(tab => {
+        //     tab.addEventListener("click", () => {
+        //         tabsBox.querySelector(".active").classList.remove("active");
+        //         tab.classList.add("active");
+        //     });
+        // });
+        // const dragging = (e) => {
+        //     if (!isDragging) return;
+        //     tabsBox.classList.add("dragging");
+        //     tabsBox.scrollLeft -= e.movementX;
+        //     handleIcons(tabsBox.scrollLeft)
+        // }
+        // const dragStop = () => {
+        //     isDragging = false;
+        //     tabsBox.classList.remove("dragging");
+        // }
+        // tabsBox.addEventListener("mousedown", () => isDragging = true);
+        // tabsBox.addEventListener("mousemove", dragging);
+        // document.addEventListener("mouseup", dragStop);
+        const dateList = document.getElementById('dateList');
+        const selectedDateText = document.getElementById('selectedDate');
 
+        // Function to generate dates
+        function generateDateRange(start, end) {
+            const dateArray = [];
+            let currentDate = new Date(start);
+            while (currentDate <= end) {
+                dateArray.push(new Date(currentDate));
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            return dateArray;
+        }
+
+        // Set the startDate to today
+        const startDate = new Date(); // Today
+        const endDate = new Date(); // Example: 30 days from today
+        endDate.setDate(startDate.getDate() + 5); // Adjust this for the range
+
+        // Create the date range starting from today
+        const dates = generateDateRange(startDate, endDate);
+
+        // Populate the date list
+        dates.forEach((date) => {
+            const dateItem = document.createElement('div');
+            dateItem.classList.add('date-item');
+            dateItem.textContent = date.toDateString().slice(0, 10); // Shorter format
+
+            // Handle date click
+            dateItem.addEventListener('click', () => {
+                // Remove 'selected' class from all date items
+                document.querySelectorAll('.date-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+
+                // Add 'selected' class to the clicked item
+                dateItem.classList.add('selected');
+
+                // Display the selected date
+                selectedDateText.textContent = `Selected Date: ${date.toDateString()}`;
+            });
+
+            dateList.appendChild(dateItem);
+        });
 
     }
 
@@ -76,7 +119,8 @@ function Page5() {
                     </div>
 
                     {/*  */}
-                    <div class="page5-wrapper">
+
+                    {/* <div class="page5-wrapper">
                         <div class="page5-icon"><i id="left" class="fa-solid fa-angle-left"></i></div>
                         <ul class="page5-tabs-box">
                             <li class="page5-tab">monday</li>
@@ -96,15 +140,24 @@ function Page5() {
                             <li class="page5-tab">Data Pathology</li>
                         </ul>
                         <div class="page5-icon"><i id="right" class="fa-solid fa-angle-right"></i></div>
-                    </div>
+                    </div> */}
 
+                    <div class="container">
+                        <h2 className='page5-h2'>Select a Date</h2>
+                        <div class="date-selector">
+                            <div class="date-list" id="dateList"></div>
+                        </div>
+                        <p class="selected-date" id="selectedDate">No date selected</p>
+                    </div>
 
                     {/*  */}
                     <div className='page5-time'>1:00 PM - 02:00 PM</div>
 
                     <div class="page5-container">
+                        <div className='specific-time'>Morning <br />10 AM 12 PM </div>
                         <h1>Select Your Token</h1>
                         <form action="#" method="post" class="token-form">
+
                             <div class="token-grid">
 
                                 {/* <div class="token-card">
@@ -217,20 +270,14 @@ function Page5() {
                     </div>
 
 
-
-
-
-
-
-
                     <div id="popup1" class="overlay">
 
                         <div className="popup">
                             <h2>Token Number</h2>
                             <a class="close" href="#">&times;</a>
                             <div class="content">
-                                <p>Do you want to book this number</p>
-                                <button className='page5-ok'>Ok</button>
+                                <h4 className='page5-para'>Do you want to book this slot</h4>
+                                <button className='page5-ok'>Confirm</button>
                                 <button className='page5-cancel'>Cancel</button>
                             </div>
                         </div>
